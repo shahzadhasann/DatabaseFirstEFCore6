@@ -4,6 +4,51 @@
     ViewData["Title"] = "Index";
 }
 
+@{
+    if (TempData["Success"] != null)
+    {
+        <script>
+            iziToast.success({
+            id: 'success',
+            title: 'Success',
+            message: '@TempData["Success"]',
+            position: 'bottomRight',
+            transitionIn: 'bounceInLeft'
+            });
+        </script>
+    }
+    else if (TempData["Updated"] != null)
+    {
+        <script>
+            iziToast.success({
+                id: 'success',
+                title: 'Updated',
+                titleColor: 'white',
+                messageColor: 'white',
+                backgroundColor: 'green',
+                message: '@TempData["Updated"]',
+                position: 'topLeft',
+                transitionIn: 'bounceInLeft'
+            });
+        </script>
+    } 
+    else if (TempData["Delete"] != null)
+    {
+        <script>
+            iziToast.success({
+                id: 'success',
+                title: 'Deleted',
+                titleColor: 'white',
+                messageColor: 'white',
+                backgroundColor: 'red',
+                message: '@TempData["Delete"]',
+                position: 'topRight',
+                transitionIn: 'bounceInLeft'
+            });
+        </script>
+    
+    }
+
 <h1>Index</h1>
 
 <p>
