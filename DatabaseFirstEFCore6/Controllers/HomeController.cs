@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DatabaseFirstEFCore6.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace DatabaseFirstEFCore6.Controllers
 {
@@ -21,6 +22,8 @@ namespace DatabaseFirstEFCore6.Controllers
         // GET: Home
         public async Task<IActionResult> Index()
         {
+            HttpContext.Session.SetString("MyKey","MySessionValue");
+            TempData["SessionId"] = HttpContext.Session.Id;
               return _context.Students != null ? 
                           View(await _context.Students.ToListAsync()) :
                           Problem("Entity set 'CodeFirstDBContext.Students'  is null.");
@@ -157,6 +160,32 @@ namespace DatabaseFirstEFCore6.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult About() 
+        {
+            //if (HttpContext.Session.GetString("MyKey") != null)
+            //{
+            //    ViewBag.Data = HttpContext.Session.GetString("MyKey").ToString();
+            //}
+            return View();
+        }
+
+        public IActionResult ContactUs()
+        {
+            if (HttpContext.Session.GetString("MyKey") != null)
+            {
+                ViewBag.Data = HttpContext.Session.GetString("MyKey").ToString();
+            }
+            return View();
+        }
+
+        public IActionResult Logout()
+        {
+            if (HttpContext.Session.GetString("MyKey") != null)
+            {
+                HttpContext.Session.Remove("MyKey");
+            }
+            return View();
+        }
         private bool StudentExists(int id)
         {
           return (_context.Students?.Any(e => e.Id == id)).GetValueOrDefault();
