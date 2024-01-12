@@ -74,7 +74,13 @@ if you redirect accross whole Application then you get your session.
 4. And retrive like this
 	<h6>@accessor.HttpContext.Session.GetString("MyKey")</h6>
 
-Note: a. The lifespan of Session in Asp.Net Core is 20 minutes and after that it automatically destroys.
+5. Set Session timespan (expiration time) by adding this line in Program.cs file before build.
+	builder.Services.AddSession(options =>
+	{
+	    options.IdleTimeout = TimeSpan.FromMinutes(10);     // Setting session expiry to 10 min.
+	});
+
+Note:     a. The lifespan of Session in Asp.Net Core is 20 minutes and after that it automatically destroys.
 	  b. It automatically also destroy after closing the browser.
 	  c. If you can destroy manually then you can use this line 
 		 HttpContext.Session.Remove("MyKey");
